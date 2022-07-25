@@ -1,70 +1,35 @@
+import gsap from 'gsap';
 import * as PIXI from 'pixi.js';
-import {ImageMarginButton} from '../buttons/ImageMarginButton';
 import {AssetsManager} from '../managers/AssetsManager';
-import {StorylineManager} from '../managers/StorylineManager';
 
 export class Tutorial extends PIXI.Container {
+    private arrow: PIXI.Sprite;
+    private pos1: PIXI.Point = new PIXI.Point(700, 1000);
+    private pos2: PIXI.Point = new PIXI.Point(480, 830);
 
-	private data: Object;
+    constructor() {
+        super();
+        this.visible = false;
 
-	constructor() {
-		super();
-		this.visible = false;
-		this.alpha = 0;
+        this.arrow = AssetsManager.instance.getSprite('cursor');
+        this.addChild(this.arrow).position.set(this.pos1.x, this.pos1.y);
+    }
 
-		this.data = AssetsManager.instance.getObject('data');
+    public show = () => {
+        this.visible = true;
+        this.move_to_2();
+    }
 
-		if (this.data['tutorial'] == '') {
-			//   this.emit('complete');
-			return;
-		}
+    private move_to_2 = () => {
+        gsap.to(this.arrow.position, {duration: 2, x: this.pos2.x, y: this.pos2.y, onComplete: this.move_to_1});
+    }
 
-		if (new StorylineManager().showHelpValue == 0) return;
+    private move_to_1 = () => {
+        gsap.to(this.arrow.position, {duration: 0.25, x: this.pos1.x, y: this.pos1.y, onComplete: this.move_to_2});
+    }
 
-
-		this.addChild(AssetsManager.instance.getSprite(this.data['tutorial']));
-
-		let btn: ImageMarginButton = new ImageMarginButton('btn_tutorial_close');
-		this.addChild(btn).position.set(1522, 918);
-		btn.addListener('press', this.onNextClick);
-
-		this.interactive = true;
-	}
-
-	private onNextClick = () => {
-
-		this.emit('complete');
-	}
-
-	public show = () => {
-
-		if (this.data['tutorial'] == '') {
-
-			this.emit('complete');
-			return;
-		}
-
-		if (new StorylineManager().showHelpValue == 0) {
-
-			this.emit('complete');
-			return;
-		}
-
-		this.visible = true;
-		//TweenLite.to(this, 0.5, { alpha: 1 });
-		this.alpha = 1;
-		new StorylineManager().invoke_hideplayer();
-		new StorylineManager().showHelpValue = 0;
-	}
-
-	public hide = () => {
-		//TweenLite.to(this, 0.5, { alpha: 0, onComplete: this.onHideComplete });
-		this.visible = false;
-		this.alpha = 0;
-		new StorylineManager().invoke_showplayer();
-	}
-
-	private onHideComplete = () => {
-		this.visible = false;
-	}
+    public hide = () => {
+        gsap.killTweensOf(this.position);
+        this.visible = false;
+    }
 }

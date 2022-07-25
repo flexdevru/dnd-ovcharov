@@ -7,6 +7,7 @@ import {FontStyle} from '../utils/FontStyle';
 import {ArrayEx, parse_point} from '../utils/Utils';
 import {Item} from './Item';
 import {Place} from './Place';
+import {DropShadowFilter} from '@pixi/filter-drop-shadow';
 
 export class Game extends PIXI.Container {
 
@@ -26,11 +27,11 @@ export class Game extends PIXI.Container {
 		this.addChild(AssetsManager.instance.getSprite(this.data['background']));
 
 
-		let title: PIXI.Text = new PIXI.Text(this.data['title'], new FontStyle('Bold', 48).fill(0x15256d).left().wordWrap().style);
-		this.addChild(title).position.set(85, 54);
+		let title: PIXI.Text = new PIXI.Text(this.data['title'], new FontStyle('SemiBold', 50).black().left().wordWrap().style);
+		this.addChild(title).position.set(53, 85);
 
-		let subtitle: PIXI.Text = new PIXI.Text(this.data['subtitle'], new FontStyle('Regular', 34).fill(0x303031).left().wordWrap().style);
-		this.addChild(subtitle).position.set(85, 151);
+		let subtitle: PIXI.Text = new PIXI.Text(this.data['subtitle'], new FontStyle('Regular', 28).black().left().wordWrap().style);
+		this.addChild(subtitle).position.set(55, 202);
 		//subtitle.alpha = 0.8;
 
 		let places: Array<Object> = this.data['places'];
@@ -53,25 +54,27 @@ export class Game extends PIXI.Container {
 
 		for (let i: number = 0; i < items.length; i++) {
 
-			let item: Item = new Item(items[i], new PIXI.Point(162, 470));
+			let item: Item = new Item(items[i], new PIXI.Point(638, 928));
 			item.addListener('drop', this.onItemDrop);
 			item.addListener('return', this.onItemReturn);
+			item.addListener('click', this.onItemClick);
 			this.items.push(item);
 			this.addChild(item);
-			item.visible = false;
 		}
 
 		this.items.sort(this.sortStackByPos);
 		this.sortStack();
 
-
-		this.btn_check = new ImageMarginButton('btn_check_answer');
-		this.addChild(this.btn_check).position.set(Application.WIDTH / 2 - this.btn_check.width / 2, 918);
+		this.btn_check = new ImageMarginButton('btn_check');
+		this.addChild(this.btn_check).position.set(835, 914);
 		this.btn_check.addListener('press', this.onCheckClick);
 		this.btn_check.visible = false;
 
+	}
 
-		//  this.filters = [new PIXI.filters.BlurFilter(4)];           
+	private onItemClick = () => {
+
+		this.emit('action');
 	}
 
 	private onItemReturn = () => {

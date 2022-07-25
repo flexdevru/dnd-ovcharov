@@ -42,16 +42,17 @@ export class Main extends PIXI.Container {
 		this.game = new Game();
 		this.addChild(this.game);
 		this.game.addListener('complete', this.onGameComplete);
+		this.game.addListener('action', this.onGameAction);
 		this.game.show();
 
 		this.btn_look = new ImageMarginButton('btn_look');
-		this.addChild(this.btn_look).position.set(Application.WIDTH / 2 - this.btn_look.width / 2, 918);
+		this.addChild(this.btn_look).position.set(712, 914);
 		this.btn_look.addListener('press', this.onLookClick);
 		this.btn_look.visible = false;
 
 		this.reflection_right = new ReflectionRight();
 		this.addChild(this.reflection_right);
-		this.reflection_right.addListener('complete', this.onReflectionRightComplete);
+		this.reflection_right.addListener('close', this.onReflectionRightClose);
 		this.reflection_right.addListener('next', this.onReflectionNext);
 
 		this.tutorial = new Tutorial();
@@ -67,21 +68,23 @@ export class Main extends PIXI.Container {
 		this.game.resetFilter();
 	}
 
+	private onGameAction = () => {
+
+		this.tutorial.hide();
+	}
+
 	private onGameComplete = () => {
 
 		if (this.game.correct == true) {
 
 			setTimeout(this.reflection_right.show, 1000);
-			new StorylineManager().completedValue = 1;
-			//this.onReflectionRightComplete();
 		}
 		else {
-
 			this.game.retry();
 		}
 	}
 
-	private onReflectionRightComplete = () => {
+	private onReflectionRightClose = () => {
 
 		this.reflection_right.hide();
 		this.btn_look.visible = true;
@@ -89,11 +92,10 @@ export class Main extends PIXI.Container {
 
 	private onReflectionNext = () => {
 
-		new StorylineManager().invoke_jumptonextslide();
+		new StorylineManager().goNextSlide();
 	}
 
 	private onLookClick = () => {
-
 		this.reflection_right.show();
 	}
 }

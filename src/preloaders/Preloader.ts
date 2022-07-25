@@ -28,7 +28,7 @@ export class Preloader extends PIXI.Sprite {
 	}
 
 	public progress = (value: number) => {
-		console.log(value)
+		//console.log(value);
 	}
 
 	public stop = () => {

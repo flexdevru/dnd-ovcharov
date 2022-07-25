@@ -26,11 +26,11 @@ export class ReflectionRight extends PIXI.Container {
 		this.addChild(icon);
 
 		this.btnNext = new ImageMarginButton('btn_next');
-		this.addChild(this.btnNext).position.set(Application.WIDTH / 2 - this.btnNext.width / 2, 761);
+		this.addChild(this.btnNext).position.set(867, 751);
 		this.btnNext.addListener('press', this.onNextClick);
 
 		this.btnClose = new ImageMarginButton('btn_reflection_close');
-		this.addChild(this.btnClose).position.set(1402, 198);
+		this.addChild(this.btnClose).position.set(1145, 216);
 		this.btnClose.addListener('press', this.onCloseClick);
 
 		let title: PIXI.Text = new PIXI.Text(this.data['reflection'], new FontStyle('Regular', 32).black().center().wordWrap().style);
@@ -66,6 +66,6 @@ export class ReflectionRight extends PIXI.Container {
 
 	private onCloseClick = () => {
 
-		this.emit('complete');
+		this.emit('close');
 	}
 }

@@ -1,27 +1,20 @@
 @font-face {
   font-family: 'Regular';
-  src: url('Rosatom-Regular.woff') format('woff');
+  src: url('Gilroy-Regular.woff') format('woff');
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
   font-family: 'Bold';
-  src: url('Rosatom-Bold.woff') format('woff');
+  src: url('Gilroy-Bold.woff') format('woff');
   font-weight: normal;
   font-style: normal;
 }
 
 @font-face {
-  font-family: 'Italic';
-  src: url('Rosatom-Italic.woff') format('woff');
-  font-weight: normal;
-  font-style: normal;
-}
-
-@font-face {
-  font-family: 'Light';
-  src: url('Rosatom-Light.woff') format('woff');
+  font-family: 'SemiBold';
+  src: url('Gilroy-SemiBold.woff') format('woff');
   font-weight: normal;
   font-style: normal;
 }
