@@ -1,5 +1,5 @@
 # template
-template for dnd
+template for dnd with cursor
 
 1. yarn install
 2. modify
